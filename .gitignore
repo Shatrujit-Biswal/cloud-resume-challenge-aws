@@ -3,3 +3,6 @@
 terraform.tfstate
 terraform.tfstate.*
 crash.log
+
+# Lambda build artifact
+backend/lambda/function.zip
