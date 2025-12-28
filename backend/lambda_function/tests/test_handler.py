@@ -13,7 +13,7 @@ def load_handler_with_env(mock_table):
     """
     os.environ["TABLE_NAME"] = "visitor-count"
 
-    with patch("backend.lambda.handler.boto3.resource") as mock_boto:
+    with patch("backend.lambda_function.handler.boto3.resource") as mock_boto:
         mock_boto.return_value.Table.return_value = mock_table
 
         from backend.lambda_function import handler
