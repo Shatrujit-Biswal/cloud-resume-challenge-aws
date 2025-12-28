@@ -40,7 +40,7 @@ jobs:
           aws-region: ap-south-1
 
       - name: Terraform init & apply
-        working-directory: terraform/backend
+        working-directory: terraform
         run: |
           terraform init
           terraform apply -auto-approve
