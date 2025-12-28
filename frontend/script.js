@@ -1,4 +1,4 @@
-const API_URL = "https://dsv95naia5.execute-api.ap-south-1.amazonaws.com/count";
+const API_URL = "__API_URL__";
 
 async function updateVisitorCount() {
   try {

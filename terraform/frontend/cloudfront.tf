@@ -12,13 +12,11 @@ resource "aws_cloudfront_distribution" "resume_cdn" {
   default_root_object = "index.html"
   comment             = "Cloud Resume Challenge Frontend"
 
-  # ✅ Custom domain aliases
   aliases = [
     "shatrujitbiswal.com",
     "www.shatrujitbiswal.com"
   ]
 
-  # ✅ REQUIRED: WAF (because pricing plan requires it)
   web_acl_id = "arn:aws:wafv2:us-east-1:927599149488:global/webacl/CreatedByCloudFront-d1b936be/c9eef4f6-b85e-4c44-b055-4b37e10625cc"
 
   origin {
@@ -38,16 +36,15 @@ resource "aws_cloudfront_distribution" "resume_cdn" {
 
     compress = true
 
-    cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6" # Managed-CachingOptimized
+    cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
   }
-  
+
   restrictions {
     geo_restriction {
       restriction_type = "none"
     }
   }
 
-  # ✅ ACM certificate (must be in us-east-1)
   viewer_certificate {
     acm_certificate_arn      = "arn:aws:acm:us-east-1:927599149488:certificate/bd27712a-52f4-4c7b-b107-0c807fe4da9d"
     ssl_support_method       = "sni-only"
@@ -58,7 +55,6 @@ resource "aws_cloudfront_distribution" "resume_cdn" {
     Project = var.project_name
   }
 
-  # 🛡️ Safety net
   lifecycle {
     prevent_destroy = true
   }

@@ -1,17 +1,9 @@
-###### add it to data.tf
-data "archive_file" "lambda_zip" {
-  type        = "zip"
-  source_file  = "${path.module}/../lambda_function/handler.py"
-  output_path = "${path.module}/../lambda_function/function.zip"
-}
-#######################
-
 resource "aws_lambda_function" "visitor_counter" {
   function_name = "${var.project_name}-lambda"
-  role          = aws_iam_role.lambda_role.arn
-  runtime       = "python3.10"
 
-  # IMPORTANT: your file is handler.py, not app.py
+  role = var.lambda_role_arn
+
+  runtime = "python3.10"
   handler = "handler.lambda_handler"
 
   filename         = data.archive_file.lambda_zip.output_path

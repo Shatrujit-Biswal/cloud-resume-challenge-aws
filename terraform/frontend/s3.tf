@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "resume_s3" {
-  bucket = "shatrujit-biswal"
-
+  bucket = var.frontend_bucket_name
 }
+
 resource "aws_s3_bucket_versioning" "resume_s3" {
   bucket = aws_s3_bucket.resume_s3.id
 
@@ -9,16 +9,18 @@ resource "aws_s3_bucket_versioning" "resume_s3" {
     status = "Disabled"
   }
 }
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "resume_s3" {
   bucket = aws_s3_bucket.resume_s3.id
 
-    rule {
+  rule {
     bucket_key_enabled = true
     apply_server_side_encryption_by_default {
       sse_algorithm = "AES256"
     }
   }
 }
+
 resource "aws_s3_bucket_public_access_block" "resume_s3" {
   bucket = aws_s3_bucket.resume_s3.id
 
@@ -30,6 +32,10 @@ resource "aws_s3_bucket_public_access_block" "resume_s3" {
 resource "aws_s3_bucket_policy" "resume_s3" {
   bucket = aws_s3_bucket.resume_s3.id
 
+  depends_on = [
+    aws_cloudfront_distribution.resume_cdn
+  ]
+  
   policy = jsonencode({
     Version = "2008-10-17"
     Id      = "PolicyForCloudFrontPrivateContent"
@@ -51,7 +57,3 @@ resource "aws_s3_bucket_policy" "resume_s3" {
     ]
   })
 }
-
-
-
-

@@ -19,6 +19,8 @@ resource "aws_iam_policy" "lambda_policy" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
+
+      # DynamoDB access (generic – tightened later)
       {
         Effect = "Allow"
         Action = [
@@ -26,8 +28,10 @@ resource "aws_iam_policy" "lambda_policy" {
           "dynamodb:PutItem",
           "dynamodb:UpdateItem"
         ]
-        Resource = aws_dynamodb_table.visitor_count.arn
+        Resource = "*"
       },
+
+      # CloudWatch Logs
       {
         Effect = "Allow"
         Action = [
@@ -41,7 +45,7 @@ resource "aws_iam_policy" "lambda_policy" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "attach_policy" {
+resource "aws_iam_role_policy_attachment" "lambda_attach" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = aws_iam_policy.lambda_policy.arn
 }
