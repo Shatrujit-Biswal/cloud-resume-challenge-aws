@@ -2,11 +2,6 @@ import json
 import os
 from unittest.mock import MagicMock, patch
 
-# IMPORTANT:
-# Import handler AFTER patching boto3.resource
-# Do NOT import handler at top-level
-
-
 def test_lambda_handler_success():
     os.environ["TABLE_NAME"] = "visitor-count"
 
