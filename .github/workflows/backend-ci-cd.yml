@@ -41,9 +41,3 @@ jobs:
       - name: Zip Lambda code
         working-directory: backend/lambda_function
         run: zip -r function.zip handler.py
-
-      - name: Update Lambda function code
-        run: |
-          aws lambda update-function-code \
-            --function-name visitor-counter-lambda \
-            --zip-file fileb://backend/lambda_function/function.zip
