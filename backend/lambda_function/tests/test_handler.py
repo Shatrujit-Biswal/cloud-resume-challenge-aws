@@ -2,12 +2,12 @@ import json
 import os
 from unittest.mock import MagicMock, patch
 
-from backend.lambda_function import handler
+# IMPORTANT:
+# Import handler AFTER patching boto3.resource
+# Do NOT import handler at top-level
 
 
 def test_lambda_handler_success():
-    """Test successful visitor count increment"""
-
     os.environ["TABLE_NAME"] = "visitor-count"
 
     mock_table = MagicMock()
@@ -15,7 +15,12 @@ def test_lambda_handler_success():
         "Attributes": {"count": 10}
     }
 
-    with patch("backend.lambda_function.handler.get_table", return_value=mock_table):
+    mock_dynamodb = MagicMock()
+    mock_dynamodb.Table.return_value = mock_table
+
+    with patch("boto3.resource", return_value=mock_dynamodb):
+        from backend.lambda_function import handler
+
         response = handler.lambda_handler({}, {})
         body = json.loads(response["body"])
 
@@ -24,18 +29,24 @@ def test_lambda_handler_success():
         assert response["headers"]["Content-Type"] == "application/json"
         assert response["headers"]["Access-Control-Allow-Origin"] == "*"
 
+        mock_table.update_item.assert_called_once()
+
 
 def test_lambda_handler_dynamodb_exception():
-    """Test Lambda behavior when DynamoDB throws an error"""
-
     os.environ["TABLE_NAME"] = "visitor-count"
 
     mock_table = MagicMock()
     mock_table.update_item.side_effect = Exception("DynamoDB error")
 
-    with patch("backend.lambda_function.handler.get_table", return_value=mock_table):
+    mock_dynamodb = MagicMock()
+    mock_dynamodb.Table.return_value = mock_table
+
+    with patch("boto3.resource", return_value=mock_dynamodb):
+        from backend.lambda_function import handler
+
         response = handler.lambda_handler({}, {})
         body = json.loads(response["body"])
 
         assert response["statusCode"] == 500
+        assert "error" in body
         assert "DynamoDB error" in body["error"]

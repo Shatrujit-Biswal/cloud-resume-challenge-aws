@@ -3,17 +3,10 @@ import os
 import boto3
 
 
-def get_table():
-    dynamodb = boto3.resource(
-        "dynamodb",
-        region_name=os.environ.get("AWS_REGION", "ap-south-1")
-    )
-    return dynamodb.Table(os.environ["TABLE_NAME"])
-
-
 def lambda_handler(event, context):
     try:
-        table = get_table()
+        dynamodb = boto3.resource("dynamodb")
+        table = dynamodb.Table(os.environ["TABLE_NAME"])
 
         response = table.update_item(
             Key={"id": "visits"},
