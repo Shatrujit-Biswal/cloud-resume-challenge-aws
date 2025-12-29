@@ -134,6 +134,7 @@ https://cloudresumechallenge.dev/docs/the-challenge/aws/
 ## Author
 
 **Shatrujit Biswal**  
+Cloud & DevOps Engineer  
 https://shatrujitbiswal.com
 
 ---
