@@ -1,4 +1,5 @@
 import os
+import json
 from unittest.mock import MagicMock, patch
 
 def test_lambda_handler_success():
@@ -18,3 +19,8 @@ def test_lambda_handler_success():
         response = handler.lambda_handler({}, {})
 
         assert response["statusCode"] == 200
+
+        body = json.loads(response["body"])
+        assert body["count"] == 10
+
+        mock_table.update_item.assert_called_once()
