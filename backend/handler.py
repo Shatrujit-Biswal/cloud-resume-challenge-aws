@@ -2,12 +2,11 @@ import json
 import os
 import boto3
 
+dynamodb = boto3.resource("dynamodb")
+table = dynamodb.Table(os.environ["TABLE_NAME"])
 
 def lambda_handler(event, context):
     try:
-        dynamodb = boto3.resource("dynamodb")
-        table = dynamodb.Table(os.environ["TABLE_NAME"])
-
         response = table.update_item(
             Key={"id": "visits"},
             UpdateExpression="SET #count = if_not_exists(#count, :start) + :inc",

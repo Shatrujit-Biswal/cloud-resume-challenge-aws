@@ -8,7 +8,12 @@ variable "project_name" {
   type        = string
 }
 
-variable "lambda_role_arn" {
-  description = "IAM role ARN for Lambda (from primary stack)"
+variable "frontend_bucket_name" {
+  description = "S3 bucket name for frontend website"
+  type        = string
+}
+
+variable "dynamodb_table_name" {
+  description = "DynamoDB table name"
   type        = string
 }

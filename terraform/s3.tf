@@ -32,10 +32,10 @@ resource "aws_s3_bucket_public_access_block" "resume_s3" {
 resource "aws_s3_bucket_policy" "resume_s3" {
   bucket = aws_s3_bucket.resume_s3.id
 
-  depends_on = [
-    aws_cloudfront_distribution.resume_cdn
-  ]
-  
+  # depends_on = [
+  #   aws_cloudfront_distribution.resume_cdn
+  # ]
+
   policy = jsonencode({
     Version = "2008-10-17"
     Id      = "PolicyForCloudFrontPrivateContent"

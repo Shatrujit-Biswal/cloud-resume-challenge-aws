@@ -1,8 +1,16 @@
 const API_URL = "__API_URL__";
+const COUNT_ENDPOINT = API_URL.endsWith("/")
+  ? `${API_URL}count`
+  : `${API_URL}/count`;
 
 async function updateVisitorCount() {
   try {
-    const response = await fetch(API_URL);
+    const response = await fetch(COUNT_ENDPOINT);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const data = await response.json();
 
     document.getElementById("visitor-count").innerText =

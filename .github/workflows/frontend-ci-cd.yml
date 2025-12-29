@@ -22,9 +22,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
+      - name: Verify API URL config exists
+        run: |
+          test -f frontend/api_url.txt || (echo "api_url.txt missing" && exit 1)
+
       - name: Inject API URL
         run: |
-          sed -i "s|__API_BASE_URL__|${{ secrets.API_BASE_URL }}|g" frontend/script.js
+          API_URL=$(cat frontend/api_url.txt)
+          sed -i "s|__API_URL__|$API_URL|g" frontend/script.js
 
       - name: Upload frontend to S3
         run: |

@@ -19,8 +19,6 @@ resource "aws_iam_policy" "lambda_policy" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
-
-      # DynamoDB access (generic – tightened later)
       {
         Effect = "Allow"
         Action = [
