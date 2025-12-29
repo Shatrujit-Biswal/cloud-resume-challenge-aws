@@ -1,109 +1,139 @@
 # Cloud Resume Challenge – AWS
 
-This repository contains my implementation of the **Cloud Resume Challenge** using AWS services, Terraform for Infrastructure as Code, and GitHub Actions for CI/CD.  
-The project demonstrates a full end-to-end serverless architecture, automated deployments, and real-world DevOps practices.
+This repository contains my implementation of the **Cloud Resume Challenge (AWS)**, built with an emphasis on **real-world cloud architecture, infrastructure ownership boundaries, CI/CD discipline, and production safety** rather than tutorial shortcuts.
+
+🔗 **Live Website:** https://shatrujitbiswal.com  
 
 ---
 
-## 🔗 Live Demo
-🌐 **Website:** https://shatrujitbiswal.com  
----
+## Overview
 
-## 🏗️ Architecture Overview
+The project delivers a static resume website served securely over HTTPS and backed by a serverless visitor counter API.  
+All infrastructure is provisioned using **Terraform**, while **application delivery** is handled separately using **GitHub Actions**.
 
-**Request flow:**
-1. User visits the resume website hosted on **Amazon S3**
-2. Content is served securely via **CloudFront (HTTPS)**
-3. JavaScript calls a **serverless API**
-4. **API Gateway** invokes a **Lambda function**
-5. Lambda updates and reads the visitor count from **DynamoDB**
-6. Response is returned and displayed on the website
+Key goals of this implementation:
+- Infrastructure as Code (IaC)
+- Least-privilege IAM
+- Clear separation of infra vs application delivery
+- Production-safe CI/CD pipelines
+- Realistic testing and debugging practices
 
 ---
 
-## 🧰 Technology Stack
+## Architecture
 
-### Frontend
-- HTML, CSS, JavaScript
-- Amazon S3 (static website hosting)
-- Amazon CloudFront (CDN + HTTPS)
+### High-Level Components
 
-### Backend
-- AWS Lambda (Python)
-- Amazon API Gateway (HTTP API)
-- Amazon DynamoDB (NoSQL database)
+**Frontend**
+- Static resume (HTML, CSS, JavaScript)
+- Hosted in a **private S3 bucket**
+- Served via **CloudFront** (HTTPS, caching)
+- Custom domain configured using **Route53**
+- TLS certificate managed by **ACM**
 
-### Infrastructure & DevOps
-- Terraform (Infrastructure as Code)
-- GitHub Actions (CI/CD)
-- IAM (least-privilege security)
+**Backend**
+- Visitor counter implemented using **AWS Lambda (Python)**
+- Exposed through **API Gateway (HTTP API)**
+- Counter stored in **DynamoDB**
+- Atomic updates using `UpdateItem` with `if_not_exists`
 
----
+**Infrastructure**
+- All AWS resources managed with **Terraform**
+- Existing production resources imported to prevent downtime
+- IAM and DNS intentionally excluded from CI/CD
 
-## 📂 Repository Structure
-
-cloud-resume-challenge-aws/
-├── frontend/
-├── backend/
-│   └── lambda/
-├── terraform/
-├── infrastructure/
-├── .github/workflows/
-└── README.md
+**CI/CD**
+- Backend CI/CD deploys **Lambda code only**
+- Frontend CI/CD deploys **static files only**
+- Terraform is never executed inside CI
 
 ---
 
-## ⚙️ Infrastructure as Code (Terraform)
+## Architecture Diagram
+![Architecture Diagram](docs/architecture.png)
 
-- All backend resources are provisioned using **Terraform**
-- No manual configuration in the AWS Console
-- Lambda code is packaged automatically using Terraform’s `archive_file`
-- Infrastructure can be fully recreated using:
+## Technology Stack
+
+| Layer | Technology |
+|-----|-----------|
+| Frontend | HTML, CSS, JavaScript |
+| Backend | Python (AWS Lambda) |
+| API | Amazon API Gateway (HTTP API) |
+| Database | Amazon DynamoDB |
+| CDN | Amazon CloudFront |
+| Storage | Amazon S3 |
+| DNS | Amazon Route53 |
+| IaC | Terraform |
+| CI/CD | GitHub Actions |
+| Testing | Pytest, unittest.mock |
+
+---
+
+## Repository Structure
+
 ```
+.
+├── backend
+│   ├── handler.py
+│   ├── requirements.txt
+│   └── tests
+│       ├── conftest.py
+│       └── test_handler.py
+├── frontend
+│   ├── index.html
+│   ├── script.js
+│   ├── style.css
+│   └── api_url.txt
+├── terraform
+│   ├── iam.tf
+│   ├── lambda.tf
+│   ├── api_gateway.tf
+│   ├── dynamodb.tf
+│   ├── s3.tf
+│   ├── cloudfront.tf
+│   ├── variables.tf
+│   ├── outputs.tf
+│   └── provider.tf
+└── .github
+    └── workflows
+        ├── backend-ci-cd.yml
+        └── frontend-ci-cd.yml
+```
+
+---
+
+## Recreating This Project
+
+### Clone the repository
+```bash
+git clone https://github.com/Shatrujit-Biswal/cloud-resume-challenge-aws.git
+cd cloud-resume-challenge-aws
+```
+
+### Provision infrastructure
+```bash
+cd terraform
 terraform init
 terraform apply
 ```
 
-<!-- ## 🔄 CI/CD Pipelines
+### Capture API URL
+```bash
+terraform output -raw api_invoke_url > ../frontend/api_url.txt
+```
 
-### Backend CI/CD
-- Runs on every push
-- Validates Terraform configuration
-- Deploys backend infrastructure using Terraform
+---
 
-### Frontend CI/CD
-- Automatically deploys website files to S3
-- Injects API Gateway endpoint into frontend JavaScript
-- Invalidates CloudFront cache after deployment 
+## Inspiration
 
---- -->
+This project is inspired by the Cloud Resume Challenge:
+https://cloudresumechallenge.dev/docs/the-challenge/aws/
 
-## 🔐 Security Considerations
+---
 
-- No AWS credentials are exposed in frontend code
-- DynamoDB is accessed only via Lambda
-- IAM roles follow the principle of least privilege
-- API Gateway permissions are scoped to the Lambda function
-
-<!-- ---
-
-## 🧪 Testing
-
-- Python unit tests for Lambda logic
-- API tested via browser and curl
-- Infrastructure validated using terraform validate
-
---- 
-
-## 📝 Blog Post
-
-I documented what I learned while building this project:
-➡️ <link-to-blog>
-
------>
-
-## 👤 Author
+## Author
 
 **Shatrujit Biswal**  
-GitHub: https://github.com/Shatrujit-Biswal  
-LinkedIn: https://linkedin.com/in/shatrujit-biswal
+https://shatrujitbiswal.com
+
+---
