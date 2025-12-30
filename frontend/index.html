@@ -1,48 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shatrujit Biswal | DevOps Engineer</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
   <div class="container">
     <h1>Shatrujit Biswal</h1>
-    <p class="title">DevOps | Cloud Engineer</p>
+    <p class="title">DevOps Engineer | Cloud, Platform & Infrastructure Automation</p>
 
     <p class="links">
-      <a href="https://github.com/Shatrujit-Biswal" target="_blank">GitHub</a>|
+      <a href="https://github.com/Shatrujit-Biswal" target="_blank">GitHub</a> |
       <a href="https://linkedin.com/in/shatrujit-biswal" target="_blank">LinkedIn</a>
     </p>
 
     <h2>Professional Summary</h2>
     <p>
-      DevOps and Cloud Engineer with hands-on experience in Linux systems,
-      CI/CD pipelines, infrastructure automation, and containerized environments.
-      Proven ability to design, automate, and manage scalable cloud infrastructure
-      on AWS using modern DevOps practices. Strong focus on automation,
-      reliability, and operational efficiency.
+      Cloud-focused engineer with hands-on experience designing, deploying, and operating
+      serverless and cloud-native systems on AWS. Strong background in Infrastructure as Code,
+      CI/CD pipelines, and automation, with a focus on clear architecture, reliability, and
+      safe deployment practices.
     </p>
 
     <h2>Technical Skills</h2>
     <ul class="skills">
-      <li>Linux</li>
-      <li>Networking Fundamentals</li>
-      <li>Bash Scripting</li>
-      <li>Python</li>
-      <li>Git & GitHub</li>
-      <li>CI/CD</li>
-      <li>Jenkins</li>
-      <li>Terraform</li>
-      <li>Ansible</li>
-      <li>Docker</li>
-      <li>Kubernetes</li>
       <li>AWS</li>
+      <li>Terraform (IaC)</li>
+      <li>Ansible</li>
+      <li>CI/CD (GitHub Actions, Jenkins)</li>
+      <li>Docker</li>
+      <li>Kubernetes (Foundational)</li>
+      <li>Linux</li>
+      <li>Python</li>
+      <li>Bash Scripting</li>
+      <li>Git & GitHub</li>
+      <li>Networking Fundamentals</li>
     </ul>
 
+
     <h2>Projects</h2>
+
+    <div class="project">
+      <strong>Serverless Resume Platform on AWS</strong><br />
+      <a href="https://github.com/Shatrujit-Biswal/cloud-resume-challenge-aws" target="_blank">
+        GitHub Repository
+      </a>
+      <ul>
+        <li>Designed and deployed a serverless platform using AWS Lambda, API Gateway, and DynamoDB</li>
+        <li>Provisioned all infrastructure using Terraform with clear separation of ownership</li>
+        <li>Served static content securely via CloudFront and private S3 with HTTPS</li>
+        <li>Implemented an atomic visitor counter using DynamoDB UpdateItem</li>
+        <li>Built CI/CD pipelines to deploy frontend and backend code independently</li>
+      </ul>
+    </div>
 
     <div class="project">
       <strong>Ansible Infrastructure Automation</strong><br />
@@ -50,8 +65,8 @@
         GitHub Repository
       </a>
       <ul>
-        <li>Automated server provisioning and configuration using Ansible playbooks to ensure consistency across environments</li>
-        <li>Implemented a basic 3-tier architecture with consistent configurations</li>
+        <li>Automated server provisioning and configuration using Ansible playbooks</li>
+        <li>Ensured consistency across environments through repeatable automation</li>
       </ul>
     </div>
 
@@ -61,7 +76,7 @@
         GitHub Repository
       </a>
       <ul>
-        <li>Designed and provisioned cloud infrastructure on AWS using Terraform as Infrastructure as Code</li>
+        <li>Designed and provisioned AWS infrastructure using Terraform as Infrastructure as Code</li>
         <li>Implemented reusable and version-controlled infrastructure deployments</li>
       </ul>
     </div>
@@ -73,17 +88,16 @@
       </a>
       <ul>
         <li>Designed and deployed multi-container applications using Docker and Docker Compose</li>
-        <li>Configured container networking for service communication</li>
+        <li>Configured container networking for service-to-service communication</li>
       </ul>
     </div>
 
     <h2>Work Experience</h2>
     <strong>IT Support Engineer</strong> — 1 Year 8 Months
     <ul>
-      <li>Provided technical support for systems, networks, and end-users</li>
-      <li>Troubleshot OS, hardware, and software issues</li>
-      <li>Worked with Linux-based enterprise environments</li>
-      <li>Applied automation and scripting concepts to improve operational efficiency</li>
+      <li>Provided technical support for end users</li>
+      <li>Troubleshot OS, hardware, and application-level issues</li>
+      <li>Applied scripting and automation concepts to improve operational efficiency</li>
     </ul>
 
     <h2>Education</h2>
@@ -101,9 +115,9 @@
     <footer>
       Visitor Count: <span id="visitor-count">Loading...</span>
       <script src="script.js"></script>
-
     </footer>
   </div>
 
 </body>
+
 </html>
